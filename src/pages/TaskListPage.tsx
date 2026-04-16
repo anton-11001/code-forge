@@ -16,15 +16,12 @@ function TaskListPage() {
       <Box sx={{ py: 4 }}>
         <Stack spacing={3}>
           <Stack spacing={1}>
-            <Typography variant="overline" color="primary">
-              CodeForge
-            </Typography>
             <Typography variant="h4">
               Choose a kata-style challenge to solve.
             </Typography>
             <Typography variant="body1" color="text.secondary">
-              Start from the task list, open a challenge page, then write and run
-              your solution there.
+              Start from the task list, open a challenge page, then write and
+              run your solution there.
             </Typography>
             <Typography variant="body2" color="text.secondary">
               Completed: {completedTaskIds.length} / {tasks.length}
