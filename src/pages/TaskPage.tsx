@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Link, Navigate, useParams } from "react-router";
-import { tasks } from "../tasks/tasks";
+import { tasks } from "../tasks";
 
 function TaskPage() {
   const { taskId } = useParams();

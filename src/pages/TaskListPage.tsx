@@ -1,6 +1,6 @@
 import { Box, Container, Stack, Typography } from "@mui/material";
 import { TaskList } from "../components/TaskList";
-import { tasks } from "../tasks/tasks";
+import { tasks } from "../tasks";
 
 function TaskListPage() {
   return (
