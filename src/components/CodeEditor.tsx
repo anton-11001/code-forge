@@ -21,13 +21,19 @@ export function CodeEditor({ value, onChange }: CodeEditorProps) {
   const editorTheme = theme.palette.mode === "dark" ? "vs-dark" : "light";
 
   return (
-      <Card variant="outlined">
+    <Card variant="outlined">
       <CardHeader title="Solution" />
       <CardContent>
         <Box sx={{ height: 460 }}>
           <Suspense
             fallback={
-              <Stack sx={{ height: "100%", alignItems: "center", justifyContent: "center" }}>
+              <Stack
+                sx={{
+                  height: "100%",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
                 <CircularProgress size={28} />
               </Stack>
             }

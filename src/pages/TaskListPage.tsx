@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Box, Container, Stack, Typography } from "@mui/material";
 import { TaskList } from "../components/TaskList";
+import { ThemeModeToggle } from "../components/ThemeModeToggle";
 import { tasks } from "../tasks";
 import { getCompletedTaskIds } from "../utils/taskCompletion";
 
@@ -15,6 +16,10 @@ function TaskListPage() {
     <Container maxWidth="lg">
       <Box sx={{ py: 4 }}>
         <Stack spacing={3}>
+          <Box>
+            <ThemeModeToggle />
+          </Box>
+
           <Stack spacing={1}>
             <Typography variant="overline" color="primary">
               CodeForge
