@@ -12,6 +12,8 @@ import {
   Divider,
   Grid,
   Stack,
+  Tab,
+  Tabs,
   Typography,
 } from "@mui/material";
 import { Link, Navigate, useParams } from "react-router";
@@ -28,7 +30,7 @@ function TaskPage() {
   const [code, setCode] = useState("");
   const [result, setResult] = useState<ExecutionResult | null>(null);
   const [isCompleted, setIsCompleted] = useState(false);
-  const [showCompletedView, setShowCompletedView] = useState(false);
+  const [activeTab, setActiveTab] = useState("description");
 
   useEffect(() => {
     if (!task) {
@@ -40,7 +42,7 @@ function TaskPage() {
     setResult(null);
     const completed = isTaskCompleted(task.id);
     setIsCompleted(completed);
-    setShowCompletedView(completed);
+    setActiveTab(completed ? "completed" : "description");
   }, [task]);
 
   if (!task) {
@@ -59,7 +61,7 @@ function TaskPage() {
     if (executionResult.status === "success") {
       markTaskAsCompleted(task.id);
       setIsCompleted(true);
-      setShowCompletedView(true);
+      setActiveTab("completed");
     }
   };
 
@@ -72,110 +74,70 @@ function TaskPage() {
         <Stack spacing={3}>
           <Card variant="outlined">
             <CardContent>
-              {showCompletedView ? (
-                <Stack spacing={3}>
-                  <Stack spacing={1}>
-                    <Typography variant="overline" color="success">
-                      Challenge Completed
-                    </Typography>
-                    <Typography variant="h4">{task.title}</Typography>
-                  </Stack>
-
-                  <Card variant="outlined">
-                    <CardHeader title="Completed" />
-                    <CardContent>
-                      <Stack spacing={2}>
-                        <Alert severity="success">
-                          Task completed. Your solution passed the tests.
-                        </Alert>
-                        <Typography variant="h5">
-                          Nice work. This one is marked as done.
-                        </Typography>
-                        <Typography variant="body1" color="text.secondary">
-                          This completed view is separate from the coding
-                          workspace, so you can celebrate the win first and only
-                          go back to the editor if you want to refine the
-                          solution.
-                        </Typography>
-                        <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
-                          <Chip label={task.difficulty} color="primary" />
-                          <Chip label="Completed" color="success" />
-                          {task.tags.map((tag) => (
-                            <Chip key={tag} label={tag} variant="outlined" />
-                          ))}
-                        </Box>
-                      </Stack>
-                    </CardContent>
-                    <CardActions>
-                      <Button
-                        variant="outlined"
-                        onClick={() => setShowCompletedView(false)}
-                      >
-                        Back to solution
-                      </Button>
-                      {nextTask ? (
-                        <Button
-                          component={Link}
-                          to={`/tasks/${nextTask.id}`}
-                          variant="contained"
-                          color="success"
-                        >
-                          Next Task
-                        </Button>
-                      ) : null}
-                      <Button component={Link} to="/" variant="outlined">
-                        Back to task list
-                      </Button>
-                    </CardActions>
-                  </Card>
+              <Stack spacing={3}>
+                <Stack spacing={1}>
+                  <Typography
+                    variant="overline"
+                    color={isCompleted ? "success" : "primary"}
+                  >
+                    {isCompleted ? "Challenge Completed" : "Challenge"}
+                  </Typography>
+                  <Typography variant="h4">{task.title}</Typography>
                 </Stack>
-              ) : (
-                <Stack spacing={3}>
-                  <Stack spacing={1}>
-                    <Typography variant="overline" color="primary">
-                      Challenge
-                    </Typography>
-                    <Typography variant="h4">{task.title}</Typography>
-                  </Stack>
 
-                  <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
-                    <Chip label={task.difficulty} color="primary" />
-                    {isCompleted ? (
-                      <Chip label="Completed" color="success" />
-                    ) : null}
-                    {task.tags.map((tag) => (
-                      <Chip key={tag} label={tag} variant="outlined" />
-                    ))}
-                  </Box>
+                <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
+                  <Chip label={task.difficulty} color="primary" />
+                  {isCompleted ? <Chip label="Completed" color="success" /> : null}
+                  {task.tags.map((tag) => (
+                    <Chip key={tag} label={tag} variant="outlined" />
+                  ))}
+                </Box>
 
-                  <Card variant="outlined">
-                    <CardHeader title="Description" />
-                    <CardContent>
-                      <Typography variant="body1" color="text.secondary">
-                        {task.description}
-                      </Typography>
-                    </CardContent>
-                  </Card>
+                <Box>
+                  <Tabs
+                    value={activeTab}
+                    onChange={(_, newValue: string) => setActiveTab(newValue)}
+                    aria-label="task tabs"
+                  >
+                    <Tab label="Description" value="description" />
+                    <Tab label="Coding" value="coding" />
+                    <Tab label="Completed" value="completed" />
+                  </Tabs>
+                </Box>
 
-                  <Card variant="outlined">
-                    <CardHeader title="Example" />
-                    <CardContent>
-                      <Stack spacing={1}>
-                        <Typography variant="body2" color="text.secondary">
-                          Input: {task.examples[0]?.input}
+                {activeTab === "description" ? (
+                  <Stack spacing={3}>
+                    <Card variant="outlined">
+                      <CardHeader title="Description" />
+                      <CardContent>
+                        <Typography variant="body1" color="text.secondary">
+                          {task.description}
                         </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          Output: {task.examples[0]?.output}
-                        </Typography>
-                        {task.examples[0]?.explanation ? (
+                      </CardContent>
+                    </Card>
+
+                    <Card variant="outlined">
+                      <CardHeader title="Example" />
+                      <CardContent>
+                        <Stack spacing={1}>
                           <Typography variant="body2" color="text.secondary">
-                            {task.examples[0].explanation}
+                            Input: {task.examples[0]?.input}
                           </Typography>
-                        ) : null}
-                      </Stack>
-                    </CardContent>
-                  </Card>
+                          <Typography variant="body2" color="text.secondary">
+                            Output: {task.examples[0]?.output}
+                          </Typography>
+                          {task.examples[0]?.explanation ? (
+                            <Typography variant="body2" color="text.secondary">
+                              {task.examples[0].explanation}
+                            </Typography>
+                          ) : null}
+                        </Stack>
+                      </CardContent>
+                    </Card>
+                  </Stack>
+                ) : null}
 
+                {activeTab === "coding" ? (
                   <Grid container spacing={2}>
                     <Grid size={{ xs: 12, xl: 8 }}>
                       <Stack spacing={2}>
@@ -203,8 +165,61 @@ function TaskPage() {
                       <ResultPanel result={result} />
                     </Grid>
                   </Grid>
-                </Stack>
-              )}
+                ) : null}
+
+                {activeTab === "completed" ? (
+                  <Card variant="outlined">
+                    <CardHeader title="Completed" />
+                    <CardContent>
+                      {isCompleted ? (
+                        <Stack spacing={2}>
+                          <Alert severity="success">
+                            Task completed. Your solution passed the tests.
+                          </Alert>
+                          <Typography variant="h5">
+                            Nice work. This one is marked as done.
+                          </Typography>
+                          <Typography variant="body1" color="text.secondary">
+                            You can stay here, go back to coding, return to the
+                            task list, or move on to the next challenge.
+                          </Typography>
+                        </Stack>
+                      ) : (
+                        <Stack spacing={2}>
+                          <Alert severity="info">
+                            This task is not completed yet.
+                          </Alert>
+                          <Typography variant="body1" color="text.secondary">
+                            Write your solution in the Coding tab and pass all
+                            tests to unlock the completed state.
+                          </Typography>
+                        </Stack>
+                      )}
+                    </CardContent>
+                    <CardActions>
+                      <Button
+                        variant="outlined"
+                        onClick={() => setActiveTab("coding")}
+                      >
+                        Back to solution
+                      </Button>
+                      {nextTask ? (
+                        <Button
+                          component={Link}
+                          to={`/tasks/${nextTask.id}`}
+                          variant="contained"
+                          color="success"
+                        >
+                          Next Task
+                        </Button>
+                      ) : null}
+                      <Button component={Link} to="/" variant="outlined">
+                        Back to task list
+                      </Button>
+                    </CardActions>
+                  </Card>
+                ) : null}
+              </Stack>
             </CardContent>
           </Card>
         </Stack>
