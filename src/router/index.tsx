@@ -1,17 +1,22 @@
 import { createBrowserRouter } from "react-router";
 import App from "../App";
-// import { lazy } from "react";
-
-// const Example = lazy(() => import("../Example"));
+import TaskListPage from "../pages/TaskListPage";
+import TaskPage from "../pages/TaskPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-  },
-  {
-    path: "/example",
-    element: <div>Example</div>,
+    children: [
+      {
+        index: true,
+        element: <TaskListPage />,
+      },
+      {
+        path: "tasks/:taskId",
+        element: <TaskPage />,
+      },
+    ],
   },
 ]);
 
