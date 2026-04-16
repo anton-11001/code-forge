@@ -3,9 +3,14 @@ import {
   Alert,
   Box,
   Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
   Chip,
   Container,
-  Paper,
+  Divider,
+  Grid,
   Stack,
   Typography,
 } from "@mui/material";
@@ -14,10 +19,7 @@ import { CodeEditor } from "../components/CodeEditor";
 import { ResultPanel } from "../components/ResultPanel";
 import { tasks } from "../tasks";
 import type { ExecutionResult } from "../types/result";
-import {
-  isTaskCompleted,
-  markTaskAsCompleted,
-} from "../utils/taskCompletion";
+import { isTaskCompleted, markTaskAsCompleted } from "../utils/taskCompletion";
 import { runTaskCode } from "../utils/runTaskCode";
 
 function TaskPage() {
@@ -65,97 +67,47 @@ function TaskPage() {
   const nextTask = tasks[currentTaskIndex + 1] ?? null;
 
   return (
-    <Box
-      sx={{
-        minHeight: "100vh",
-        background:
-          "linear-gradient(180deg, #f7efe5 0%, rgba(247, 239, 229, 0.96) 100%)",
-        py: { xs: 3, md: 5 },
-      }}
-    >
-      <Container maxWidth="lg">
+    <Container maxWidth="lg">
+      <Box sx={{ py: 4 }}>
         <Stack spacing={3}>
-          <Button
-            component={Link}
-            to="/"
-            variant="text"
-            sx={{ alignSelf: "flex-start", px: 0 }}
-          >
-            Back to tasks
-          </Button>
+          <Card variant="outlined">
+            <CardContent>
+              {showCompletedView ? (
+                <Stack spacing={3}>
+                  <Stack spacing={1}>
+                    <Typography variant="overline" color="success">
+                      Challenge Completed
+                    </Typography>
+                    <Typography variant="h4">{task.title}</Typography>
+                  </Stack>
 
-          <Paper
-            elevation={0}
-            sx={{
-              borderRadius: 4,
-              border: "1px solid",
-              borderColor: "divider",
-              p: { xs: 3, md: 4 },
-              backgroundColor: "rgba(255,255,255,0.78)",
-              backdropFilter: "blur(10px)",
-            }}
-          >
-            {showCompletedView ? (
-              <Stack spacing={3}>
-                <Box>
-                  <Typography
-                    variant="overline"
-                    sx={{ color: "success.main", fontWeight: 700, letterSpacing: 2 }}
-                  >
-                    Challenge Completed
-                  </Typography>
-                  <Typography variant="h3" sx={{ fontWeight: 800, mt: 1 }}>
-                    {task.title}
-                  </Typography>
-                </Box>
-
-                <Paper
-                  variant="outlined"
-                  sx={{
-                    p: { xs: 3, md: 4 },
-                    borderRadius: 4,
-                    background:
-                      "linear-gradient(135deg, rgba(76, 175, 80, 0.14) 0%, rgba(255,255,255,0.96) 100%)",
-                    borderColor: "success.light",
-                  }}
-                >
-                  <Stack spacing={3}>
-                    <Alert severity="success">
-                      Task completed. Your solution passed the current predefined
-                      test.
-                    </Alert>
-
-                    <Box>
-                      <Typography variant="h5" sx={{ fontWeight: 800, mb: 1 }}>
-                        Nice work. This one is marked as done.
-                      </Typography>
-                      <Typography variant="body1" color="text.secondary">
-                        This completed view is separate from the coding workspace,
-                        so you can celebrate the win first and only go back to the
-                        editor if you want to refine the solution.
-                      </Typography>
-                    </Box>
-
-                    <Stack
-                      direction="row"
-                      spacing={1}
-                      useFlexGap
-                      sx={{ flexWrap: "wrap" }}
-                    >
-                      <Chip label={task.difficulty} color="primary" />
-                      <Chip label="Completed" color="success" />
-                      {task.tags.map((tag) => (
-                        <Chip key={tag} label={tag} variant="outlined" />
-                      ))}
-                    </Stack>
-
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexDirection: { xs: "column", sm: "row" },
-                        gap: 1.5,
-                      }}
-                    >
+                  <Card variant="outlined">
+                    <CardHeader title="Completed" />
+                    <CardContent>
+                      <Stack spacing={2}>
+                        <Alert severity="success">
+                          Task completed. Your solution passed the current
+                          predefined test.
+                        </Alert>
+                        <Typography variant="h5">
+                          Nice work. This one is marked as done.
+                        </Typography>
+                        <Typography variant="body1" color="text.secondary">
+                          This completed view is separate from the coding
+                          workspace, so you can celebrate the win first and only
+                          go back to the editor if you want to refine the
+                          solution.
+                        </Typography>
+                        <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
+                          <Chip label={task.difficulty} color="primary" />
+                          <Chip label="Completed" color="success" />
+                          {task.tags.map((tag) => (
+                            <Chip key={tag} label={tag} variant="outlined" />
+                          ))}
+                        </Box>
+                      </Stack>
+                    </CardContent>
+                    <CardActions>
                       <Button
                         variant="outlined"
                         onClick={() => setShowCompletedView(false)}
@@ -175,110 +127,90 @@ function TaskPage() {
                       <Button component={Link} to="/" variant="outlined">
                         Back to task list
                       </Button>
-                    </Box>
-                  </Stack>
-                </Paper>
-              </Stack>
-            ) : (
-              <Stack spacing={3}>
-                <Box>
-                  <Typography
-                    variant="overline"
-                    sx={{ color: "primary.main", fontWeight: 700, letterSpacing: 2 }}
-                  >
-                    Challenge
-                  </Typography>
-                  <Typography variant="h3" sx={{ fontWeight: 800, mt: 1 }}>
-                    {task.title}
-                  </Typography>
-                </Box>
-
-                <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: "wrap" }}>
-                  <Chip label={task.difficulty} color="primary" />
-                  {isCompleted ? <Chip label="Completed" color="success" /> : null}
-                  {task.tags.map((tag) => (
-                    <Chip key={tag} label={tag} variant="outlined" />
-                  ))}
+                    </CardActions>
+                  </Card>
                 </Stack>
-
-                <Box>
-                  <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 1 }}>
-                    Description
-                  </Typography>
-                  <Typography variant="body1" color="text.secondary">
-                    {task.description}
-                  </Typography>
-                </Box>
-
-                <Paper
-                  variant="outlined"
-                  sx={{
-                    p: 2.5,
-                    borderRadius: 3,
-                    backgroundColor: "rgba(118, 75, 33, 0.04)",
-                  }}
-                >
-                  <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 1 }}>
-                    Example
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Input: {task.examples[0]?.input}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Output: {task.examples[0]?.output}
-                  </Typography>
-                  {task.examples[0]?.explanation ? (
-                    <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-                      {task.examples[0].explanation}
+              ) : (
+                <Stack spacing={3}>
+                  <Stack spacing={1}>
+                    <Typography variant="overline" color="primary">
+                      Challenge
                     </Typography>
-                  ) : null}
-                </Paper>
-
-                <Box
-                  sx={{
-                    display: "grid",
-                    gridTemplateColumns: { xs: "1fr", xl: "minmax(0, 1fr) 320px" },
-                    gap: 2,
-                    alignItems: "start",
-                  }}
-                >
-                  <Stack spacing={2}>
-                    <CodeEditor value={code} onChange={handleCodeChange} />
-
-                    <Paper variant="outlined" sx={{ p: 2.5, borderRadius: 3 }}>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          flexDirection: { xs: "column", sm: "row" },
-                          gap: 1.5,
-                          justifyContent: "space-between",
-                          alignItems: { xs: "stretch", sm: "center" },
-                        }}
-                      >
-                        <Box>
-                          <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
-                            Predefined test
-                          </Typography>
-                          <Typography variant="body2" color="text.secondary">
-                            The current MVP runs the built-in test snippet for this
-                            task in the browser.
-                          </Typography>
-                        </Box>
-                        <Button variant="contained" onClick={handleRunCode}>
-                          Run Code
-                        </Button>
-                      </Box>
-                    </Paper>
+                    <Typography variant="h4">{task.title}</Typography>
                   </Stack>
 
-                  <ResultPanel result={result} />
-                </Box>
-              </Stack>
-            )}
-          </Paper>
+                  <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
+                    <Chip label={task.difficulty} color="primary" />
+                    {isCompleted ? (
+                      <Chip label="Completed" color="success" />
+                    ) : null}
+                    {task.tags.map((tag) => (
+                      <Chip key={tag} label={tag} variant="outlined" />
+                    ))}
+                  </Box>
+
+                  <Card variant="outlined">
+                    <CardHeader title="Description" />
+                    <CardContent>
+                      <Typography variant="body1" color="text.secondary">
+                        {task.description}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+
+                  <Card variant="outlined">
+                    <CardHeader title="Example" />
+                    <CardContent>
+                      <Stack spacing={1}>
+                        <Typography variant="body2" color="text.secondary">
+                          Input: {task.examples[0]?.input}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          Output: {task.examples[0]?.output}
+                        </Typography>
+                        {task.examples[0]?.explanation ? (
+                          <Typography variant="body2" color="text.secondary">
+                            {task.examples[0].explanation}
+                          </Typography>
+                        ) : null}
+                      </Stack>
+                    </CardContent>
+                  </Card>
+
+                  <Grid container spacing={2}>
+                    <Grid size={{ xs: 12, xl: 8 }}>
+                      <Stack spacing={2}>
+                        <CodeEditor value={code} onChange={handleCodeChange} />
+
+                        <Card variant="outlined">
+                          <CardHeader title="Predefined test" />
+                          <CardContent>
+                            <Typography variant="body2" color="text.secondary">
+                              The current MVP runs the built-in test snippet for
+                              this task in the browser.
+                            </Typography>
+                          </CardContent>
+                          <Divider />
+                          <CardActions>
+                            <Button variant="contained" onClick={handleRunCode}>
+                              Run Code
+                            </Button>
+                          </CardActions>
+                        </Card>
+                      </Stack>
+                    </Grid>
+
+                    <Grid size={{ xs: 12, xl: 4 }}>
+                      <ResultPanel result={result} />
+                    </Grid>
+                  </Grid>
+                </Stack>
+              )}
+            </CardContent>
+          </Card>
         </Stack>
-      </Container>
-    </Box>
+      </Box>
+    </Container>
   );
 }
 

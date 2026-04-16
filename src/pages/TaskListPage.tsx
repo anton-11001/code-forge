@@ -12,46 +12,29 @@ function TaskListPage() {
   }, []);
 
   return (
-    <Box
-      sx={{
-        minHeight: "100vh",
-        background:
-          "radial-gradient(circle at top, #fff4e6 0%, #f7efe5 38%, #f2ebe3 100%)",
-        py: { xs: 3, md: 5 },
-      }}
-    >
-      <Container maxWidth="lg">
+    <Container maxWidth="lg">
+      <Box sx={{ py: 4 }}>
         <Stack spacing={3}>
-          <Box>
-            <Typography
-              variant="overline"
-              sx={{ color: "primary.main", fontWeight: 700, letterSpacing: 2 }}
-            >
+          <Stack spacing={1}>
+            <Typography variant="overline" color="primary">
               CodeForge
             </Typography>
-            <Typography
-              variant="h4"
-              sx={{ fontWeight: 800, maxWidth: 760, mb: 1.5 }}
-            >
+            <Typography variant="h4">
               Choose a kata-style challenge to solve.
             </Typography>
-            <Typography
-              variant="body1"
-              color="text.secondary"
-              sx={{ maxWidth: 720 }}
-            >
-              Start from the task list, open a challenge page, then write and
-              run your solution there.
+            <Typography variant="body1" color="text.secondary">
+              Start from the task list, open a challenge page, then write and run
+              your solution there.
             </Typography>
-            <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+            <Typography variant="body2" color="text.secondary">
               Completed: {completedTaskIds.length} / {tasks.length}
             </Typography>
-          </Box>
+          </Stack>
 
           <TaskList tasks={tasks} completedTaskIds={completedTaskIds} />
         </Stack>
-      </Container>
-    </Box>
+      </Box>
+    </Container>
   );
 }
 
