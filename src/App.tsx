@@ -1,7 +1,13 @@
 import { Outlet } from "react-router";
+import { AppHeader } from "./components/AppHeader";
 
 function App() {
-  return <Outlet />;
+  return (
+    <>
+      <AppHeader />
+      <Outlet />
+    </>
+  );
 }
 
 export default App;

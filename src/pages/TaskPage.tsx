@@ -17,7 +17,6 @@ import {
 import { Link, Navigate, useParams } from "react-router";
 import { CodeEditor } from "../components/CodeEditor";
 import { ResultPanel } from "../components/ResultPanel";
-import { ThemeModeToggle } from "../components/ThemeModeToggle";
 import { tasks } from "../tasks";
 import type { ExecutionResult } from "../types/result";
 import { isTaskCompleted, markTaskAsCompleted } from "../utils/taskCompletion";
@@ -71,10 +70,6 @@ function TaskPage() {
     <Container maxWidth="lg">
       <Box sx={{ py: 4 }}>
         <Stack spacing={3}>
-          <Box>
-            <ThemeModeToggle />
-          </Box>
-
           <Card variant="outlined">
             <CardContent>
               {showCompletedView ? (
