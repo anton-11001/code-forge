@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -8,15 +9,40 @@ import {
   Typography,
 } from "@mui/material";
 import { Link, Navigate, useParams } from "react-router";
+import { CodeEditor } from "../components/CodeEditor";
+import { ResultPanel } from "../components/ResultPanel";
 import { tasks } from "../tasks";
+import type { ExecutionResult } from "../types/result";
+import { runTaskCode } from "../utils/runTaskCode";
 
 function TaskPage() {
   const { taskId } = useParams();
   const task = tasks.find((item) => item.id === taskId);
+  const [code, setCode] = useState("");
+  const [result, setResult] = useState<ExecutionResult | null>(null);
+
+  useEffect(() => {
+    if (!task) {
+      return;
+    }
+
+    const savedCode = window.localStorage.getItem(`codeforge:${task.id}`);
+    setCode(savedCode ?? task.starterCode);
+    setResult(null);
+  }, [task]);
 
   if (!task) {
     return <Navigate to="/" replace />;
   }
+
+  const handleCodeChange = (nextValue: string) => {
+    setCode(nextValue);
+    window.localStorage.setItem(`codeforge:${task.id}`, nextValue);
+  };
+
+  const handleRunCode = () => {
+    setResult(runTaskCode(task, code));
+  };
 
   return (
     <Box
@@ -102,22 +128,45 @@ function TaskPage() {
                 ) : null}
               </Paper>
 
-              <Paper
-                variant="outlined"
+              <Box
                 sx={{
-                  p: 2.5,
-                  borderRadius: 3,
-                  backgroundColor: "rgba(255,255,255,0.8)",
+                  display: "grid",
+                  gridTemplateColumns: { xs: "1fr", xl: "minmax(0, 1fr) 320px" },
+                  gap: 2,
+                  alignItems: "start",
                 }}
               >
-                <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 1 }}>
-                  Next implementation step
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  This task page is now separate from the task list. Next we can
-                  add the Monaco editor and result panels directly on this page.
-                </Typography>
-              </Paper>
+                <Stack spacing={2}>
+                  <CodeEditor value={code} onChange={handleCodeChange} />
+
+                  <Paper variant="outlined" sx={{ p: 2.5, borderRadius: 3 }}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: { xs: "column", sm: "row" },
+                        gap: 1.5,
+                        justifyContent: "space-between",
+                        alignItems: { xs: "stretch", sm: "center" },
+                      }}
+                    >
+                      <Box>
+                        <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
+                          Predefined test
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          The current MVP runs the built-in test snippet for this
+                          task in the browser.
+                        </Typography>
+                      </Box>
+                      <Button variant="contained" onClick={handleRunCode}>
+                        Run Code
+                      </Button>
+                    </Box>
+                  </Paper>
+                </Stack>
+
+                <ResultPanel result={result} />
+              </Box>
             </Stack>
           </Paper>
         </Stack>
