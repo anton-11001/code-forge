@@ -16,7 +16,13 @@ export const findPhoneInProductsTask: Task = {
   starterCode: `function findPhoneInProducts(products) {
   // return true if "phone" exists in the array
 }`,
-  testCode: `assert.equal(findPhoneInProducts(["laptop", "mouse", "phone", "keyboard"]), true);`,
+  testCode: [
+    `assert.equal(findPhoneInProducts(["laptop", "mouse", "phone", "keyboard"]), true);`,
+    `assert.equal(findPhoneInProducts(["phone"]), true);`,
+    `assert.equal(findPhoneInProducts(["laptop", "mouse", "keyboard"]), false);`,
+    `assert.equal(findPhoneInProducts([]), false);`,
+    `assert.equal(findPhoneInProducts(["Phone", "mouse"]), false);`,
+  ],
   functionName: "findPhoneInProducts",
   tags: ["Array", "Search"],
 };

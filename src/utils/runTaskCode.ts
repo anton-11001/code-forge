@@ -67,17 +67,22 @@ function createAssertApi(): AssertApi {
 }
 
 export function runTaskCode(task: Task, code: string): ExecutionResult {
-  try {
-    const assert = createAssertApi();
-    const evaluator = new Function("assert", `${code}\n\n${task.testCode}`);
+  const passedMessages: string[] = [];
 
-    evaluator(assert);
+  try {
+    for (const [index, testCode] of task.testCode.entries()) {
+      const assert = createAssertApi();
+      const evaluator = new Function("assert", `${code}\n\n${testCode}`);
+
+      evaluator(assert);
+      passedMessages.push(`Test ${index + 1} passed.`);
+    }
 
     return {
       status: "success",
-      passed: 1,
+      passed: task.testCode.length,
       failed: 0,
-      messages: ["All predefined tests passed."],
+      messages: passedMessages,
     };
   } catch (error) {
     const message =
@@ -85,9 +90,9 @@ export function runTaskCode(task: Task, code: string): ExecutionResult {
 
     return {
       status: "error",
-      passed: 0,
-      failed: 1,
-      messages: ["One or more tests failed."],
+      passed: passedMessages.length,
+      failed: task.testCode.length - passedMessages.length,
+      messages: [...passedMessages, `Test ${passedMessages.length + 1} failed.`],
       error: message,
     };
   }

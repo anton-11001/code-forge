@@ -16,7 +16,13 @@ export const sortArrayAscendingTask: Task = {
   starterCode: `function sortArrayAscending(numbers) {
   // sort numbers from smallest to largest
 }`,
-  testCode: `assert.deepEqual(sortArrayAscending([9, 3, 7, 1, 5]), [1, 3, 5, 7, 9]);`,
+  testCode: [
+    `assert.deepEqual(sortArrayAscending([9, 3, 7, 1, 5]), [1, 3, 5, 7, 9]);`,
+    `assert.deepEqual(sortArrayAscending([1, 2, 3]), [1, 2, 3]);`,
+    `assert.deepEqual(sortArrayAscending([5, 5, 2, 2, 1]), [1, 2, 2, 5, 5]);`,
+    `assert.deepEqual(sortArrayAscending([-3, 0, 10, -1]), [-3, -1, 0, 10]);`,
+    `assert.deepEqual(sortArrayAscending([]), []);`,
+  ],
   functionName: "sortArrayAscending",
   tags: ["Array", "Sorting"],
 };

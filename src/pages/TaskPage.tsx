@@ -91,8 +91,7 @@ function TaskPage() {
                     <CardContent>
                       <Stack spacing={2}>
                         <Alert severity="success">
-                          Task completed. Your solution passed the current
-                          predefined test.
+                          Task completed. Your solution passed the tests.
                         </Alert>
                         <Typography variant="h5">
                           Nice work. This one is marked as done.
@@ -188,11 +187,11 @@ function TaskPage() {
                         <CodeEditor value={code} onChange={handleCodeChange} />
 
                         <Card variant="outlined">
-                          <CardHeader title="Predefined test" />
+                          <CardHeader title="Tests" />
                           <CardContent>
                             <Typography variant="body2" color="text.secondary">
-                              The current MVP runs the built-in test snippet for
-                              this task in the browser.
+                              This task runs {task.testCode.length}
+                              tests in the browser.
                             </Typography>
                           </CardContent>
                           <Divider />

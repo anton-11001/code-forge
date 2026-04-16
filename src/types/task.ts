@@ -13,7 +13,7 @@ export type Task = {
   description: string;
   examples: TaskExample[];
   starterCode: string;
-  testCode: string;
+  testCode: string[];
   functionName: string;
   tags: string[];
 };
