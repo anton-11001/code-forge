@@ -145,21 +145,13 @@ function TaskPage() {
                       <Stack spacing={2}>
                         <CodeEditor value={code} onChange={handleCodeChange} />
 
-                        <Card variant="outlined">
-                          <CardHeader title="Tests" />
-                          <CardContent>
-                            <Typography variant="body2" color="text.secondary">
-                              This task runs {task.testCode.length}
-                              tests in the browser.
-                            </Typography>
-                          </CardContent>
-                          <Divider />
-                          <CardActions>
-                            <Button variant="contained" onClick={handleRunCode}>
-                              Run Code
-                            </Button>
-                          </CardActions>
-                        </Card>
+                        <Button
+                          sx={{ maxWidth: 200 }}
+                          variant="contained"
+                          onClick={handleRunCode}
+                        >
+                          Run Code
+                        </Button>
                       </Stack>
                     </Grid>
 
