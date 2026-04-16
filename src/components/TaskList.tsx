@@ -12,6 +12,7 @@ import type { Task } from "../types/task";
 
 type TaskListProps = {
   tasks: Task[];
+  completedTaskIds?: string[];
 };
 
 const difficultyColorMap: Record<Task["difficulty"], "success" | "warning" | "error"> =
@@ -21,7 +22,7 @@ const difficultyColorMap: Record<Task["difficulty"], "success" | "warning" | "er
     Hard: "error",
   };
 
-export function TaskList({ tasks }: TaskListProps) {
+export function TaskList({ tasks, completedTaskIds = [] }: TaskListProps) {
   return (
     <Paper
       elevation={0}
@@ -45,6 +46,8 @@ export function TaskList({ tasks }: TaskListProps) {
 
       <List disablePadding>
         {tasks.map((task) => {
+          const isCompleted = completedTaskIds.includes(task.id);
+
           return (
             <ListItemButton
               key={task.id}
@@ -65,9 +68,24 @@ export function TaskList({ tasks }: TaskListProps) {
             >
               <Stack spacing={1.25} sx={{ width: "100%" }}>
                 <Box>
-                  <Typography sx={{ fontWeight: 700, color: "text.primary" }}>
-                    {task.title}
-                  </Typography>
+                  <Stack
+                    direction="row"
+                    spacing={1}
+                    useFlexGap
+                    sx={{ flexWrap: "wrap", alignItems: "center", mb: 0.5 }}
+                  >
+                    <Typography sx={{ fontWeight: 700, color: "text.primary" }}>
+                      {task.title}
+                    </Typography>
+                    {isCompleted ? (
+                      <Chip
+                        size="small"
+                        color="success"
+                        variant="filled"
+                        label="Completed"
+                      />
+                    ) : null}
+                  </Stack>
                   <Typography
                     variant="body2"
                     color="text.secondary"

@@ -1,8 +1,16 @@
+import { useEffect, useState } from "react";
 import { Box, Container, Stack, Typography } from "@mui/material";
 import { TaskList } from "../components/TaskList";
 import { tasks } from "../tasks";
+import { getCompletedTaskIds } from "../utils/taskCompletion";
 
 function TaskListPage() {
+  const [completedTaskIds, setCompletedTaskIds] = useState<string[]>([]);
+
+  useEffect(() => {
+    setCompletedTaskIds(getCompletedTaskIds());
+  }, []);
+
   return (
     <Box
       sx={{
@@ -35,9 +43,12 @@ function TaskListPage() {
               Start from the task list, open a challenge page, then write and
               run your solution there.
             </Typography>
+            <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+              Completed: {completedTaskIds.length} / {tasks.length}
+            </Typography>
           </Box>
 
-          <TaskList tasks={tasks} />
+          <TaskList tasks={tasks} completedTaskIds={completedTaskIds} />
         </Stack>
       </Container>
     </Box>
