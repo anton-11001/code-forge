@@ -87,7 +87,9 @@ function TaskPage() {
 
                 <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
                   <Chip label={task.difficulty} color="primary" />
-                  {isCompleted ? <Chip label="Completed" color="success" /> : null}
+                  {isCompleted ? (
+                    <Chip label="Completed" color="success" />
+                  ) : null}
                   {task.tags.map((tag) => (
                     <Chip key={tag} label={tag} variant="outlined" />
                   ))}

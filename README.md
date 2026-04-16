@@ -4,28 +4,28 @@ Build an MVP first with a very small and predictable flow: task list, task detai
 
 Start with the core screens and layout:
 
-* Left sidebar or top panel with the list of tasks
-* Main content area with the selected task description
-* Code editor for the user solution
-* Test editor or predefined test section
-* Output panel for test results, errors, and success state
+- Left sidebar or top panel with the list of tasks
+- Main content area with the selected task description
+- Code editor for the user solution
+- Test editor or predefined test section
+- Output panel for test results, errors, and success state
 
 Define the task data structure first. Since you want to hardcode tasks manually, each task should contain:
 
-* id
-* title
-* difficulty
-* description
-* examples
-* starterCode
-* testCode
-* functionName
-* tags
+- id
+- title
+- difficulty
+- description
+- examples
+- starterCode
+- testCode
+- functionName
+- tags
 
 Create a hardcoded tasks file, for example:
 
-* `tasks.ts`
-* array of task objects
+- `tasks.ts`
+- array of task objects
   This will let you easily add new challenges without building an admin panel or backend.
 
 Implement the main feature blocks in this order.
@@ -33,22 +33,22 @@ Implement the main feature blocks in this order.
 **1. Task selection block**
 Create a task list component that shows:
 
-* task title
-* difficulty
-* tags
-* selected state
+- task title
+- difficulty
+- tags
+- selected state
 
 When a user clicks a task, load its full content into the main area.
 
 **2. Task description block**
 Create a challenge details component that renders:
 
-* title
-* problem description
-* input/output explanation
-* examples
-* constraints
-* notes
+- title
+- problem description
+- input/output explanation
+- examples
+- constraints
+- notes
 
 This block should be read-only and update when the selected task changes.
 
@@ -56,10 +56,10 @@ This block should be read-only and update when the selected task changes.
 Use a code editor component such as Monaco Editor.
 This area should:
 
-* preload starter code for the selected task
-* allow editing
-* preserve code per task if needed
-* support syntax highlighting
+- preload starter code for the selected task
+- allow editing
+- preserve code per task if needed
+- support syntax highlighting
 
 For MVP, focus on JavaScript first. Later you can add TypeScript or other languages.
 
@@ -67,8 +67,8 @@ For MVP, focus on JavaScript first. Later you can add TypeScript or other langua
 Create a separate section for tests.
 You have two possible modes:
 
-* hidden predefined tests
-* editable visible tests
+- hidden predefined tests
+- editable visible tests
 
 For your first version, better use predefined hardcoded tests and only show the result output.
 If you want a more Codewars-like feeling later, add visible sample tests and hidden validation tests.
@@ -77,99 +77,99 @@ If you want a more Codewars-like feeling later, add visible sample tests and hid
 You need a safe way to run user code against tests.
 For MVP, the easiest approach is:
 
-* run only JavaScript
-* execute in-browser with a controlled sandboxed approach
+- run only JavaScript
+- execute in-browser with a controlled sandboxed approach
 
 Possible options:
 
-* `new Function()` for very basic prototype
-* isolated iframe sandbox
-* backend execution service for safer long-term solution
+- `new Function()` for very basic prototype
+- isolated iframe sandbox
+- backend execution service for safer long-term solution
 
 For a real app, backend execution is better because running arbitrary code in the browser is limited and risky.
 
 **6. Results block**
 After clicking Run or Submit, show:
 
-* passed tests count
-* failed tests count
-* assertion messages
-* runtime errors
-* success message
+- passed tests count
+- failed tests count
+- assertion messages
+- runtime errors
+- success message
 
 This block should be very clear and easy to scan.
 
 **7. State management**
 You need state for:
 
-* selected task
-* user code per task
-* execution status
-* test results
-* loading/error state
+- selected task
+- user code per task
+- execution status
+- test results
+- loading/error state
 
 For MVP, React local state is enough.
 If the app grows, move to Zustand or Redux Toolkit.
 
 **8. Suggested component structure**
 
-* `App`
-* `TaskList`
-* `TaskListItem`
-* `TaskDetails`
-* `CodeEditor`
-* `TestPanel`
-* `ResultPanel`
-* `RunControls`
+- `App`
+- `TaskList`
+- `TaskListItem`
+- `TaskDetails`
+- `CodeEditor`
+- `TestPanel`
+- `ResultPanel`
+- `RunControls`
 
 **9. Suggested folder structure**
 
-* `components/`
-* `data/`
-* `types/`
-* `utils/`
-* `hooks/`
+- `components/`
+- `data/`
+- `types/`
+- `utils/`
+- `hooks/`
 
 Example:
 
-* `data/tasks.ts`
-* `types/task.ts`
-* `utils/runTests.ts`
+- `data/tasks.ts`
+- `types/task.ts`
+- `utils/runTests.ts`
 
 **10. Development phases**
 
 Phase 1:
 
-* hardcoded tasks
-* task selection
-* description view
-* code editor
-* simple run button
-* simple test results
+- hardcoded tasks
+- task selection
+- description view
+- code editor
+- simple run button
+- simple test results
 
 Phase 2:
 
-* save user code in localStorage
-* add difficulty filters
-* add task search
-* add better test reporting
+- save user code in localStorage
+- add difficulty filters
+- add task search
+- add better test reporting
 
 Phase 3:
 
-* hidden tests
-* submission history
-* progress tracking
-* theming
-* user authentication if needed
+- hidden tests
+- submission history
+- progress tracking
+- theming
+- user authentication if needed
 
 **Recommended stack**
 
-* React
-* TypeScript
-* Vite
-* Monaco Editor
-* Zustand if state grows
-* CSS Modules, Tailwind, or MUI depending on your preference
+- React
+- TypeScript
+- Vite
+- Monaco Editor
+- Zustand if state grows
+- CSS Modules, Tailwind, or MUI depending on your preference
 
 **Best MVP flow**
 User opens app → selects task from list → reads description → writes code → clicks Run → sees test results.

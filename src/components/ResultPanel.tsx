@@ -1,4 +1,11 @@
-import { Alert, Card, CardContent, CardHeader, Stack, Typography } from "@mui/material";
+import {
+  Alert,
+  Card,
+  CardContent,
+  CardHeader,
+  Stack,
+  Typography,
+} from "@mui/material";
 import type { ExecutionResult } from "../types/result";
 
 type ResultPanelProps = {

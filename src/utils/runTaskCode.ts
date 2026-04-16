@@ -92,7 +92,10 @@ export function runTaskCode(task: Task, code: string): ExecutionResult {
       status: "error",
       passed: passedMessages.length,
       failed: task.testCode.length - passedMessages.length,
-      messages: [...passedMessages, `Test ${passedMessages.length + 1} failed.`],
+      messages: [
+        ...passedMessages,
+        `Test ${passedMessages.length + 1} failed.`,
+      ],
       error: message,
     };
   }

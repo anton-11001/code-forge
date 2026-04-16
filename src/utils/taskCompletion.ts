@@ -10,7 +10,9 @@ export function getCompletedTaskIds(): string[] {
   try {
     const parsedValue = JSON.parse(rawValue);
     return Array.isArray(parsedValue)
-      ? parsedValue.filter((value): value is string => typeof value === "string")
+      ? parsedValue.filter(
+          (value): value is string => typeof value === "string",
+        )
       : [];
   } catch {
     return [];

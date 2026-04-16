@@ -10,7 +10,8 @@ export const findPhoneInProductsTask: Task = {
     {
       input: '["laptop", "mouse", "phone", "keyboard"]',
       output: "true",
-      explanation: 'The value "phone" exists in the array, so the result is true.',
+      explanation:
+        'The value "phone" exists in the array, so the result is true.',
     },
   ],
   starterCode: `function findPhoneInProducts(products) {
