@@ -54,6 +54,9 @@ export function AppThemeProvider({ children }: AppThemeProviderProps) {
       // primary: {
       //   main: "#8b5e34",
       // },
+      primary: {
+        main: "#9c27b0",
+      },
     },
   });
 
